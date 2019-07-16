@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="row">
+    <% if @car.pictures %>
+        <% @car.pictures.each do |picture| %>
+          <div class="col-md-6 mt-5">
+            <%= image_tag picture, class: "d-block w-100" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-4 mt-5">
+      <p>
+        <strong>Make:</strong>
+        <%= @car.make %>
+      </p>
+
+      <p>
+        <strong>Model:</strong>
+        <%= @car.model %>
+      </p>
+
+      <p>
+        <strong>Year:</strong>
+        <%= @car.year %>
+      </p>
+
+      <p>
+        <strong>Km:</strong>
+        <%= @car.km %>
+      </p>
+
+      <p>
+        <strong>Price:</strong>
+        <%= @car.price %>
+      </p>
+
+      <p>
+        <strong>Color:</strong>
+        <%= @car.color %>
+      </p>
+
+      <p>
+        <strong>Registration:</strong>
+        <%= @car.registration %>
+      </p>
+
+      <p>
+        <strong>Description:</strong>
+        <%= @car.description %>
+      </p>
+
+      <p>
+        <strong>Fuel type:</strong>
+        <%= @car.fuel_type %>
+      </p>
+
+      <p>
+        <strong>Transmission type:</strong>
+        <%= @car.transmission_type %>
+      </p>
+
+      <p>
+        <strong>Location:</strong>
+        <%= @car.location %>
+      </p>
+
+        </div>
+
+</div>
+<%# Nands: %>
+<%# check if the current user is the seller of the car %>
+<%# also if the explore is clicked before login this throws an error hence check if 
+the user has logged in and the user has created a profile %>
+
+<% if current_user && current_user.profile && (current_user.profile.seller ==  @car.seller) %>
+  <%= link_to 'Edit', edit_car_path(@car)%> |
+<% else %>
+<%# Nands: %>
+  <%# params can be passed in the routes, which could be used to populate appropriate tables %>
+  <% if current_user && current_user.profile %>
+      <%# if the car is already bought, show sold %>
+    <% if @car.buyer %>
+        <button class="btn btn-danger">Sold</button>
+        <%# redirect to profile page of seller to leave a review, 
+        provided the logged in user has bought this car %>
+        <% if current_user.profile.buyer == @car.buyer %>
+          <%= link_to 'Review Seller', profile_path(@car.seller.profile_id), class: "btn btn-warning"%>
+        <% end %>
+    <% else %>
+       <%= link_to 'Buy', buyer_page_path(seller_id: @car.seller, car_id: @car ), class: "btn btn-primary"%>
+    <% end %>
+  <% end %>
+<% end%> 
+<%= link_to 'Back', cars_path %>

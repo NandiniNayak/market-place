@@ -1,0 +1,35 @@
+<form action="/payment" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_eSDmWWBFojrtHZeacLNhjBUL"
+    data-amount="<%= (@car.price) * 100 %>"
+    data-name="Stripe.com"
+    data-description="Example charge"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto"
+    data-zip-code="true">
+  </script>
+  <!-- solves form authenticity token error -->
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= hidden_field_tag :amount, @car.price %>
+  <%= hidden_field_tag :email, current_user.email %>
+  <%= hidden_field_tag :seller_id, @seller.id%>
+  <%= hidden_field_tag :car_id, @car.id%>
+</form>
+
+
+<form action="/charge" method="post" id="payment-form">
+  <div class="form-row">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display Element errors. -->
+    <div id="card-errors" role="alert"></div>
+  </div>
+
+  <button>Submit Payment</button>
+</form>

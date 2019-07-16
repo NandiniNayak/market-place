@@ -1,0 +1,27 @@
+ <div class="d-flex justify-content-center">
+      <form class="form-inline my-2 my-lg-0 align-items-sm-center">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+</div>
+<div class="row mt-3">
+  <% @cars.each do |car| %>
+  <div class="col-md-4 mt-5">
+   <div class="card" style="width: 18rem;">
+      <%= image_tag(car.pictures.first, class: "card-img-top") if car.pictures.first%>
+      <div class="card-body">
+        <h5 class="card-title"><%= car.make %> 
+        <span><%= car.model%></span>
+        </h5>
+        <%# <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> %>
+          <div class="btn btn-primary">
+             <%= link_to "Explore", car_path(car.id), class: "car-explore"%>
+             <span class="badge badge-warning">
+             <%= number_to_currency(car.convert_price, precision: 3, strip_insignificant_zeros: true)%>K
+             </span>
+          </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
